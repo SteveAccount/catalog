@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalog</title>
+    <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" integrity="sha512-pg7xGkuHzhrV2jAMJvQsTV30au1VGlnxVN4sgmG8Yv0dxGR71B21QeHGLMvYod4AaygAzz87swLEZURw7VND2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BenchNine&family=Rajdhani&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../Public/css/wc.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+    <script type="text/javascript" src="../../../Public/js/Common.js"></script>
+    <script type="text/javascript" src="../../../Public/js/Menu.js"></script>
+    <script type="text/javascript" src="../../../Public/js/DataService.js"></script>
+    <script type="text/javascript" src="../../../Public/js/Notify.js"></script>
+    <script type="text/javascript" src="../../../Public/js/Table.js"></script>
+    <script type="text/javascript" src="../../../Public/js/ModalController.js"></script>
+    <script type="text/javascript" src="../../../Public/js/TabControl.js"></script>
+    <script type="text/javascript" src="../../../Public/js/Modal.js"></script>
+    <script type="text/javascript" src="../../../Public/js/Accordion.js"></script>
+    <script type="text/javascript" src="../../../Public/js/SliderCheckbox.js"></script>
+    <script type="text/javascript" src="../../../Public/js/InnerModal.js"></script>
+    <script type="text/javascript" src="../../../Public/js/Address.js"></script>
+    <script type="text/javascript" src="../../../Public/js/NumberInput.js"></script>
+    <script type="text/javascript" src="../../../Public/js/SafetyToggle.js"></script>
+    <script type="text/javascript" src="../../../Public/js/ToolTrip.js"></script>
+    <script type="text/javascript" src="../../../Public/js/ListBox.js"></script>
+    <script type="text/javascript" src="../../../Public/js/Widgets.js"></script>
+    <script type="text/javascript" src="../../../Public/js/Comm.js"></script>
+    <script type="text/javascript" src="../../../Public/js/Selector.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+    <div class="d-flexCol pageContainer" style="background: url(/Public/backgrounds/greenShapes.jpg); background-size: cover;">
+        <div class="titleBar d-flexRow justifyContentSpaceBetween">
+            <button class="menuToggle controlBtn bg-transparent c-white fs-15-rem"><i class="bi bi-list"></i></button>
+            <div id="windowsToggleContainer">
+
+            </div>
+{#            <button class="windowsToggle controlBtn bg-transparent c-white fs-15-rem"><i class="bi bi-files"></i></button>#}
+        </div>
+        <div class="contentContainer">
+            <div class="sideBar">
+                <div class="sideBarContent">
+                    <div class="userBox">
+                        <div class="userImage">
+                            {% if user.image %}
+                            {% else %}
+                                <div class="monogram">{{ user.monogram }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="userName">
+                            <span>{{ user.name }}</span>
+                        </div>
+                    </div>
+                    <div class="mainMenu">
+                        <div class="menuContainer">
+                            {{ menu | raw }}
+                        </div>
+                    </div>
+                    <div class="globalSearchBox">
+                        <div class="globalSearch">
+                            <input class="globalSearchInput" placeholder="Keresés...">
+                        </div>
+                        <div class="globalSearchResults">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="menuToggleContainer d-flexRow justifyContentCenter alignItemsCenter">
+                    <button class="controlBtn bg-transparent c-white fs-15-rem"><i class="bi bi-list"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" src="../../../Public/js/MessageBox.js"></script>
+<script>
+    let dataService         = new DataService();
+    let notify              = new Notify();
+    let tooltripControl     = new ToolTripControl();
+    const modalController   = new ModalController("greenShapes");
+    let menu                = new Menu();
+
+    const messageBox        = new MessageBox();
+
+    const capitalize = (s) => {
+        if (s !== ""){
+            let words = s.split(" ");
+            words.map((item, index) => {
+                words[index] = item && item[0].toUpperCase() + item.slice(1).toLowerCase();
+            })
+            return words.join(" ");
+        }
+        return "";
+    }
+
+    const computeTotalAddress = (data) => {
+        let totalAddress = "";
+        if (data.simplyAddress){
+            totalAddress = data.postalCode + " " + data.city + ", " + data.simplyAddress;
+        } else{
+            totalAddress = data.postalCode + " " + data.city + ", ";
+            if (data.streetName){
+                totalAddress += data.streetName + " " + data.streetType + " " + data.streetNumber;
+                if (data.building){
+                    totalAddress += " " + data.building;
+                }
+                if (data.staircase){
+                    totalAddress += " " + data.staircase;
+                }
+            }
+        }
+        return totalAddress;
+    }
+
+    const round = (number, decimals = 0) => {
+        let multiplier = Math.pow(10, decimals);
+        return Math.round(number * multiplier) / multiplier;
+    }
+
+    const numFormat = (realInput, thousandSeparator = " ", decimalSeparator = ",") => {
+        let parts       = realInput.toString().split(".");
+        let sign        = parts[0][0] === "-" ? "-" : "";
+        let number      = sign === "" ? parts[0] : parts[0].substr(1);
+        let numParts    = [];
+
+        if (number.length % 3 !== 0){
+            numParts.push(number.substr(0, number.length % 3));
+            number = number.substr(number.length % 3);
+        }
+        for (let i = 0; number.length > 0 ; i++) {
+            numParts.push(number.substr(0,3));
+            number = number.substr(3);
+        }
+
+        let decimal = parts[1] !== undefined ? decimalSeparator + parts[1] : "";
+        return sign + numParts.join(thousandSeparator) + decimal;
+    }
+
+    Date.prototype.getWeek = function(){
+        var day_miliseconds = 86400000,
+            onejan = new Date(this.getFullYear(),0,1,0,0,0),
+            onejan_day = (onejan.getDay()===0) ? 7 : onejan.getDay(),
+            days_for_next_monday = (8-onejan_day),
+            onejan_next_monday_time = onejan.getTime() + (days_for_next_monday * day_miliseconds),
+            // If one jan is not a monday, get the first monday of the year
+            first_monday_year_time = (onejan_day>1) ? onejan_next_monday_time : onejan.getTime(),
+            this_date = new Date(this.getFullYear(), this.getMonth(),this.getDate(),0,0,0),// This at 00:00:00
+            this_time = this_date.getTime(),
+            days_from_first_monday = Math.round(((this_time - first_monday_year_time) / day_miliseconds));
+
+        var first_monday_year = new Date(first_monday_year_time);
+        return (days_from_first_monday>=0 && days_from_first_monday<364) ? Math.ceil((days_from_first_monday+1)/7) : 52;
+    }
+
+    $(".windowBtn[data-id=catalog]").click();
+</script>
+
+</body>
+</html>

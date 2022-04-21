@@ -1,0 +1,57 @@
+{% extends "modaltemplate.html.twig" %}
+
+{% block modalName %}modalPublisher{% endblock %}
+
+{% block modalWidth %}width-600px{% endblock %}
+
+{% block modalContent %}
+    <form id="formPublisher">
+        <div>
+            <div class="modalGridRow">
+                <label class="itemStart-1 itemWidth-2">Név:</label>
+                <input class="modalInput itemStart-3 itemWidth-3 focusFirst" type="text" name="name">
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block modalFooter %}
+    <div class="modalGridRow modalControls">
+        <button class="btnOK itemStart-2 itemWidth-3" type="button" data-form="formPublisher">OK</button>
+        <button class="btnCancel itemStart-7 itemWidth-3" type="button">Mégsem</button>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        class ModalPublisher extends Modal{
+            titleForNew     = "Új kiadó";
+            titleForUpdate  = "Kiadó módosítása";
+            id;
+
+            constructor(name, url, onNewRoute, onUpdateRoute) {
+                super(name, url, onNewRoute, onUpdateRoute);
+                this.name = name;
+            }
+
+            open(id, params, onSubmit = null, hasClear = true){
+                if (hasClear){
+                    this.clearFields();
+                }
+
+                this.id     = id;
+                let data    = this.init(params);
+            }
+
+            onSubmitOK(id, item) {
+                super.onSubmitOK(id, item);
+
+                publishers.publishersTable.refresh();
+
+                return true;
+            }
+        }
+
+        let modalPublisher = new ModalPublisher("modalPublisher", "/publishers");
+    </script>
+{% endblock %}

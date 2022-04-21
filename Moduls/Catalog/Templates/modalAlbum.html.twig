@@ -1,0 +1,106 @@
+{% extends "modaltemplate.html.twig" %}
+
+{% block modalName %}modalAlbum{% endblock %}
+
+{% block modalWidth %}width-600px{% endblock %}
+
+{% block modalContent %}
+    <form id="formAlbum">
+        <div>
+            <div class="modalGridRow">
+                <label class="itemStart-1 itemWidth-3">Cím:</label>
+                <input class="modalInput itemStart-4 itemWidth-6 focusFirst" type="text" name="title">
+            </div>
+            <div class="modalGridRow">
+                <label class="itemStart-1 itemWidth-3">Szerző(k):</label>
+                <div class="itemStart-4 itemWidth-6">
+                    <select name="composerId" multiple></select>
+                </div>
+            </div>
+            <div class="modalGridRow">
+                <label class="itemStart-1 itemWidth-3">Kiadó:</label>
+                <div class="itemStart-4 itemWidth-6">
+                    <select name="publisherId"></select>
+                </div>
+            </div>
+            <div class="modalGridRow">
+                <label class="itemStart-1 itemWidth-3">Megjelenés dátuma:</label>
+                <input class="modalInput itemStart-4 itemWidth-2" type="text" name="publishDate">
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block modalFooter %}
+    <div class="modalGridRow modalControls">
+        <button class="btnOK itemStart-2 itemWidth-3" type="button" data-form="formAlbum">OK</button>
+        <button class="btnCancel itemStart-7 itemWidth-3" type="button">Mégsem</button>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        class ModalAlbum extends Modal{
+            titleForNew     = "Új album";
+            titleForUpdate  = "Album módosítása";
+            id;
+            composerSelector;
+            publisherSelector;
+
+            constructor(name, url, onNewRoute, onUpdateRoute) {
+                super(name, url, onNewRoute, onUpdateRoute);
+                this.name = name;
+
+                this.composerSelector = this.container.find("[name=composerId]").select2({
+                    data: {{ composers|json_encode|raw }},
+                    tags: true,
+                });
+
+                this.publisherSelector = this.container.find("[name=publisherId]").select2({
+                    data: {{ publishers|json_encode|raw }}
+                });
+
+                this.container.find("[name=publishDate]").datepicker({
+                    changeMonth:        true,
+                    changeYear:         true,
+                    dayNamesMin:        ["V", "H", "K", "Sz", "Cs", "P", "Sz"],
+                    monthNamesShort:    ["Jan", "Feb", "Már", "Ápr", "Máj", "Jún", "Júl", "Aug", "Szep", "Okt", "Nov", "Dec"],
+                    firstDay:           1,
+                    dateFormat:         "yy-mm-dd",
+                    yearRange:          "1900:" + (new Date().getFullYear() - 14),
+                });
+            }
+
+            open(id, params, onSubmit = null, hasClear = true){
+                if (hasClear){
+                    this.clearFields();
+                }
+
+                this.id     = id;
+                let data    = this.init(params);
+
+                if (id === 0) {
+
+                } else {
+                    let result = [];
+
+                    data.composers.map((composer) => {
+                        result.push(composer.composerId);
+                    })
+
+                    this.container.find("[name=composerId]").val(result).change();
+                }
+            }
+
+            onSubmitOK(id, item) {
+                super.onSubmitOK(id, item);
+
+                albums.albumsTable.refresh();
+
+                return true;
+            }
+        }
+
+        let modalAlbum = new ModalAlbum("modalAlbum", "/albums");
+    </script>
+{% endblock %}

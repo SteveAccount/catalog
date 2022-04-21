@@ -1,0 +1,18 @@
+<div id="{% block modalName %}{% endblock %}" class="modalFrame {% block modalWidth %}{% endblock %}">
+    <div class="modalGridRow alignItemsCenter modalTitle">
+        <div class="itemStart-1 itemWidth-8 titleText">
+            {% block modalTitle %}{% endblock %}
+        </div>
+        <div class="itemStart-10 itemWidth-1 justifySelfRight">
+            <div class="isActiveLamp" data-name="isActive"></div>
+        </div>
+    </div>
+    <div class="modalInner {% block modalInnerClass %}{% endblock %}">
+        {% block modalContent %}{% endblock %}
+    </div>
+    <div class="modalFooter">
+        {% block modalFooter %}{% endblock %}
+    </div>
+</div>
+
+{% block script %}{% endblock %}

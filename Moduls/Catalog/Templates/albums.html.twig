@@ -1,0 +1,52 @@
+<div class="d-flexCol">
+    <div class="controlBar">
+        <div>
+        </div>
+        <div>
+            <button class="tableControlBtn squareBtn btnNew">Új</button>
+        </div>
+        <div class="d-flexRow alignItemsCenter">
+        </div>
+    </div>
+    <div class="mainTable">
+        <div class="tableRow tableHeader">
+            {% for key, field in tableInfo.fields %}
+                <div class="{{ field.dNone ? 'd-none-'~field.dNone : '' }}" style="width: {{ field.width }}%;" data-width="{{ field.width }}"
+                     data-hide="{{ field.dNone ? 'd-none-'~field.dNone : '' }}"
+                     data-align="{{ field.align ? field.align : '' }}"
+                     data-colname="{{ key }}">
+                    {% if (tableInfo.orderable) %}
+                        {% if (tableInfo.orderBy and tableInfo.orderBy["field"] == key) %}
+                            <span class="order{{ tableInfo.orderBy["direction"] }}">{{ field.header }}</span>
+                        {% else %}
+                            <span class="orderNone">{{ field.header }}</span>
+                        {% endif %}
+                    {% else %}
+                        <span>{{ field.header }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="tableBody">
+            <div class="rows">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    Albums = class Albums{
+        albumsTable;
+
+        constructor(){
+            this.albumsTable = $("#albums .mainTable").table({
+                url:            "/albums",
+                rowsPerLoad:    {{ tableInfo.limit }},
+                modal:          "modalAlbum",
+                multiSelect:    false,
+            });
+        }
+    }
+
+    let albums = new Albums();
+</script>

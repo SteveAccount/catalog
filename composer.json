@@ -1,0 +1,23 @@
+{
+  "name": "vendor_name/catalog",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Steve",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "steveaccount/steveengine": ">v1.0.13",
+    "twig/twig": ">1.6.4",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Catalog\\": "Moduls/Catalog",
+      "Main\\": "Moduls/Main"
+    }
+  }
+}
